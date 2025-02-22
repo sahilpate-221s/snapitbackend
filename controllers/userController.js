@@ -121,7 +121,7 @@ export const loginUser = async (req, res) => {
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true, // Makes cookie inaccessible to client-side JavaScript
-      sameSite: "strict", // Helps prevent CSRF attacks
+      sameSite: "none", // Helps prevent CSRF attacks
       maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 1 day
       path: "/",
     });
