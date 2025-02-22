@@ -57,12 +57,20 @@ export const registerUser = async (req, res) => {
     });
 
     // Set token in HTTP-only cookie
+    // res.cookie("token", token, {
+    //   httpOnly: true, // Ensures cookie is not accessible via JavaScript
+    //   sameSite: "strict", // Prevents CSRF attacks
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day expiry
+    //   path: "/",
+    // });
+
     res.cookie("token", token, {
-      httpOnly: true, // Ensures cookie is not accessible via JavaScript
-      sameSite: "strict", // Prevents CSRF attacks
-      maxAge: 24 * 60 * 60 * 1000, // 1 day expiry
-      path: "/",
-    });
+  httpOnly: true, 
+  secure: process.env.NODE_ENV === "production", // Enable secure cookies in production
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict", 
+  maxAge: 24 * 60 * 60 * 1000, // 1 day expiry
+});
+
 
     // Do not send password or token in the response body
     user.password = undefined;
@@ -119,12 +127,20 @@ export const loginUser = async (req, res) => {
     });
 
     // Set token in HTTP-only cookie
+    // res.cookie("token", token, {
+    //   httpOnly: true, // Makes cookie inaccessible to client-side JavaScript
+    //   sameSite: "none", // Helps prevent CSRF attacks
+    //   maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 1 day
+    //   path: "/",
+    // });
+
     res.cookie("token", token, {
-      httpOnly: true, // Makes cookie inaccessible to client-side JavaScript
-      sameSite: "none", // Helps prevent CSRF attacks
-      maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 1 day
-      path: "/",
-    });
+  httpOnly: true, 
+  secure: process.env.NODE_ENV === "production", // Enable secure cookies in production
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict", 
+  maxAge: 24 * 60 * 60 * 1000, // 1 day expiry
+});
+
 
     // Do not expose password in the response
     user.password = undefined;
@@ -147,7 +163,18 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
   try {
-    res.cookie("token", "", { maxAge: 0 });
+    console.log("Logout function triggered"); // Debugging log
+
+    res.cookie("token", "", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+  expires: new Date(0), // Expire immediately
+});
+
+
+    console.log("Cookie cleared, sending response"); // Debugging log
+
     res.status(200).json({
       success: true,
       message: "User logged out successfully",
