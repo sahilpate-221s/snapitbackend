@@ -1,6 +1,6 @@
 # SnapIt - Backend  
 
-🚀 **Frontend Repo:** [SnapIt Frontend]("https://snapitbackend.onrender.com")  
+🚀 **Backend Repo:** [SnapIt backend]("https://snapitbackend.onrender.com")  
 
 ## 📌 Tech Stack  
 
@@ -29,7 +29,7 @@ To run the backend locally, follow these steps:
 
 ```sh
 # Clone the repository
-git clone <backend-repo-url>
+git clone <[backend-repo-url](https://github.com/sahilpate-221s/snapitbackend)>
 
 # Navigate to the backend directory
 cd snapit-backend
